@@ -31,8 +31,22 @@ export async function searchMovies(req, res) {
 //   res.send(`Search Movies for ${title}`);
 }
 
-export function getMovieDetails(req, res) {
+export async function getMovieDetails(req, res) {
   const { id } = req.params; //get the movie’s IMDb ID from the route parameters
 
-  res.send(`Get Movie Details for ${id} `);
+   if (!id) {
+    return res.status(400).json({ error: "Invalid IMDb ID. It should look like tt0372784" });
+  }
+
+  try {
+    
+    const response = await axios.get(BASE_URL, {
+      params: {i: id, apikey: process.env.OMDB_API_KEY,}
+    });
+
+    res.json(response.data);
+  } catch (err) {
+    console.error("Movie Request Failed:", err.message);
+    res.status(500).json({ error: "Failed to fetch movies from OMDb API" });
+  }
 }
