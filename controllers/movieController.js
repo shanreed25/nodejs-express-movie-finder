@@ -34,7 +34,11 @@ export async function searchMovies(req, res) {
 export async function getMovieDetails(req, res) {
   const { id } = req.params; //get the movie’s IMDb ID from the route parameters
 
-   if (!id) {
+  /*
+  make sure the movie id matches the correct format 
+  it must start with tt, then one or more digits
+  */
+   if (!/^tt\d+$/.test(id)) {
     return res.status(400).json({ error: "Invalid IMDb ID. It should look like tt0372784" });
   }
 
@@ -47,6 +51,6 @@ export async function getMovieDetails(req, res) {
     res.json(response.data);
   } catch (err) {
     console.error("Movie Request Failed:", err.message);
-    res.status(500).json({ error: "Failed to fetch movies from OMDb API" });
+    res.status(500).json({ error: "Failed to fetch movie details from OMDb API" });
   }
 }

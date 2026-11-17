@@ -1,5 +1,5 @@
-import express from "express";
 import "dotenv/config";//runs dotenv.config() which reads the .env file
+import express from "express";
 import movieRoutes from "./routes/movieRoutes.js";
 
 
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 app.use("/api", movieRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Movie Finder API iis running");
+  res.send("Movie Finder API is running");
 });
 
 
